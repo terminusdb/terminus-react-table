@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { useTable, usePagination } from 'react-table'
-import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink} from "reactstrap";  
+import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink} from "reactstrap";
 
 const TableComponent = ({ columns, data })=>{
 	const {
@@ -33,7 +33,7 @@ const TableComponent = ({ columns, data })=>{
 	return(
 		<>
 		<Table {...getTableProps()} borderedTop={true} hover>
-        <thead >
+       { /*<thead >
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
@@ -41,7 +41,7 @@ const TableComponent = ({ columns, data })=>{
               ))}
             </tr>
           ))}
-        </thead>
+        </thead>*/}
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row)

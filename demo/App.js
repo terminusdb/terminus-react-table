@@ -1,5 +1,7 @@
-import React , {useEffect,useState} from 'react';
+import React , {useEffect, useState, useMemo} from 'react';
 import {TableComponent} from '@terminusdb/terminus-react-table';
+
+import TerminusClient from '@terminusdb/terminus-client'
 /*import makeData from './makeData'*/
 
 import {testResult} from './testResult'
@@ -43,7 +45,7 @@ const App= (props) =>{
             WOQL.opt().quad("v:Element","comment","v:Comment","schema"),
             WOQL.opt().quad("v:Element","tcs:tag","v:Abstract","schema")
     );
-    
+
 
     const replaceStr=(label)=>{
         if(typeof label ==="string"){
@@ -52,7 +54,7 @@ const App= (props) =>{
         return label;
     }
 
-    const formatColumns=(columnVars,conf)=>{    
+    const formatColumns=(columnVars,conf)=>{
       const columnList=columnVars || []
 
       return columnList.map((item,index)=>{
@@ -88,7 +90,8 @@ const App= (props) =>{
          console.log('query', query)
          query.execute(dbClient).then((response)=>{
               clientResult = new TerminusClient.WOQLResult(response,query);
-              const data= React.useMemo(()=>clientResult.getBindings());
+              //const data= useMemo(()=>clientResult.getBindings());
+              const data = clientResult.getBindings();
               listOfColumns=formatColumns(clientResult.getVariableList())
               setDataprovider(data)
 
@@ -99,10 +102,10 @@ const App= (props) =>{
       }).catch((err)=>{
          console.log(err)
       })
-   },[reload])
-    
+   },[])
 
-    
+
+
 
 	  const columns = React.useMemo(
     () => [
@@ -115,7 +118,7 @@ const App= (props) =>{
 
 
 
-		
+
 
 	return (<Container>
 				    MY TEST
