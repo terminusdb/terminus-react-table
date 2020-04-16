@@ -1,14 +1,15 @@
-import React , {useEffect, useState, useMemo} from 'react';
-import {TableComponent} from '@terminusdb/terminus-react-table';
-
+import React , {useEffect,useState} from 'react';
 import TerminusClient from '@terminusdb/terminus-client'
+
+import {TableComponent} from '@terminusdb/terminus-react-table';
+import {FormatColumns} from '@terminusdb/terminus-react-table';
 /*import makeData from './makeData'*/
 
 import {testResult} from './testResult'
 
 import { Container} from "reactstrap";
 
-import {WOQLResult} from "@terminusdb/terminus-client";
+//import {WOQLResult} from "@terminusdb/terminus-client";
 
 
 /*
@@ -30,7 +31,9 @@ import {WOQLResult} from "@terminusdb/terminus-client";
 }*/
 
 const App= (props) =>{
+  const [reload,setReload] = useState(false)
   const [dataProvider,setDataprovider] = useState([])
+  const [listOfColumns,setListOfColumns] = useState([])
 
   const server=process.env.API_URL;
   const key=process.env.API_KEY
@@ -47,42 +50,8 @@ const App= (props) =>{
     );
 
 
-    const replaceStr=(label)=>{
-        if(typeof label ==="string"){
-          return label.replace('v:','');
-        }
-        return label;
-    }
-
-    const formatColumns=(columnVars,conf)=>{
-      const columnList=columnVars || []
-
-      return columnList.map((item,index)=>{
-             return {
-                        Header: replaceStr(item),
-                        id: item,
-                        accessor: item,
-                        filterable: false,
-                        show:true,
-                        Cell: function(props){
-                            //return sum(1,4);
-                            //return sum;
-                            let value;
-                            if(typeof props.cell.value==='object'){
-                              value=props.cell.value['@value']
-
-                            }else {
-                              value = (props.cell.value)//.substring(props.value.lastIndexOf('/')+1)).replace("#",":")
-                            }
-                            return <span>{value}</span>
-                        }
-                  }
-
-        })
-    }
-
     let clientResult;
-    let listOfColumns=[]
+    //let listOfColumns=[]
     useEffect(() => {
       const dbClient = new TerminusClient.WOQLClient();
          dbClient.connect(server, key).then(function(response){
@@ -90,9 +59,10 @@ const App= (props) =>{
          console.log('query', query)
          query.execute(dbClient).then((response)=>{
               clientResult = new TerminusClient.WOQLResult(response,query);
-              //const data= useMemo(()=>clientResult.getBindings());
-              const data = clientResult.getBindings();
-              listOfColumns=formatColumns(clientResult.getVariableList())
+              const data= clientResult.getBindings();
+
+              setListOfColumns(FormatColumns(clientResult.getVariableList()));
+
               setDataprovider(data)
 
          }).catch((err)=>{
@@ -107,22 +77,11 @@ const App= (props) =>{
 
 
 
-	  const columns = React.useMemo(
-    () => [
-      {
-        Header:'test', columns:listOfColumns
-      }
-    ],
-    []
-  )
-
-
-
-
+	const columns =[{ Header:'test', columns:listOfColumns}]
 
 	return (<Container>
 				    MY TEST
-				    <TableComponent columns={columns} data={dataProvider}/>
+				    <TableComponent columns={columns} data={dataProvider} />
 			    </Container>)
 }
 
