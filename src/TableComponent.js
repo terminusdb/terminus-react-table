@@ -3,7 +3,7 @@ import { useTable, usePagination } from 'react-table'
 import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink} from "reactstrap";  
 
 const TableComponent = ({ columns, data })=>{
-	const {
+  const {
 	    getTableProps,
 	    getTableBodyProps,
 	    headerGroups,
@@ -29,6 +29,8 @@ const TableComponent = ({ columns, data })=>{
 	    },
 	    usePagination
   	)
+
+
 
 	return(
 		<>
