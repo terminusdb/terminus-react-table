@@ -1,17 +1,15 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { useTable, usePagination } from 'react-table'
-import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink} from "reactstrap";
+import { Table,Container,Row, Col, Pagination, PaginationItem,
+    PaginationLink} from "reactstrap";
 
-const TableComponent = ({ columns, data })=>{
+const TableComponent = ({ columns = [], data = [] })=>{
   const {
 	    getTableProps,
 	    getTableBodyProps,
 	    headerGroups,
 	    prepareRow,
-	    page, // Instead of using 'rows', we'll use page,
-	    // which has only the rows for the active page
-
-	    // The rest of these things are super handy, too ;)
+	    page,
 	    canPreviousPage,
 	    canNextPage,
 	    pageOptions,
@@ -30,12 +28,10 @@ const TableComponent = ({ columns, data })=>{
 	    usePagination
   	)
 
-
-
 	return(
 		<>
 		<Table {...getTableProps()} borderedTop={true} hover>
-       { /*<thead >
+       { <thead >
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
@@ -43,7 +39,7 @@ const TableComponent = ({ columns, data })=>{
               ))}
             </tr>
           ))}
-        </thead>*/}
+        </thead>}
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row)
@@ -72,7 +68,7 @@ const TableComponent = ({ columns, data })=>{
         <span>
           Page{' '}
           <strong>
-            {pageIndex + 1} of {pageOptions.length}
+            {pageIndex } of {pageOptions.length}
           </strong>{' '}
         </span>
         <select
