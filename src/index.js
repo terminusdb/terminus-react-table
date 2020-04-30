@@ -1,4 +1,2 @@
-module.exports = {
-    TableComponent:require('./TableComponent'),
-    FormatColumns:require('./utils')
-}
+export TableComponent from './TableComponent'
+export FormatColumns from './utils'
