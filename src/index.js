@@ -1,2 +1,2 @@
-export TableComponent from './TableComponent';
+export WoqlTable from './TableComponent';
 export FormatColumns from './utils';
