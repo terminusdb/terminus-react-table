@@ -14,8 +14,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'terminus-table.min.js',
-        sourceMapFilename: 'terminus-table.min.js.map',
+        filename: 'terminusdb-table.min.js',
+        sourceMapFilename: 'terminusdb-table.min.js.map',
         libraryTarget: 'umd',
         library: 'TerminusTable',
     },

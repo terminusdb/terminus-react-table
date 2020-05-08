@@ -1,7 +1,7 @@
 import React , {useEffect,useState} from 'react';
 import TerminusClient from '@terminusdb/terminus-client'
-import { TableComponent } from '@terminusdb/terminus-react-table';
-import { FormatColumns } from '@terminusdb/terminus-react-table';
+import { TableComponent } from '@terminusdb/terminusdb-react-table';
+import { FormatColumns } from '@terminusdb/terminusdb-react-table';
 import { Container } from "reactstrap";
 
 //import {WOQLResult} from "@terminusdb/terminus-client";

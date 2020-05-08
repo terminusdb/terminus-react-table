@@ -1,1 +1,1 @@
-# terminus-react-table
+# terminusdb-react-table
