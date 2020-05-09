@@ -1,7 +1,7 @@
 import React,{useEffect, useMemo} from 'react';
 import { useTable, usePagination,  useSortBy } from 'react-table'
 import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink} from "reactstrap";
-import TerminusClient from '@terminusdb/terminus-client';
+import TerminusClient from '@terminusdb/terminusdb-client';
 
 const WOQLTable = ({bindings, view, query, serverside})=>{
 
