@@ -1,10 +1,10 @@
 import React , {useEffect,useState} from 'react';
-import TerminusClient from '@terminusdb/terminus-client'
+import TerminusClient from '@terminusdb/terminusdb-client'
 import { TableComponent } from '@terminusdb/terminusdb-react-table';
 import { FormatColumns } from '@terminusdb/terminusdb-react-table';
 import { Container } from "reactstrap";
 
-//import {WOQLResult} from "@terminusdb/terminus-client";
+//import {WOQLResult} from "@terminusdb/terminusdb-client";
 
 const App = (props) =>{
 
