@@ -1,1 +1,1 @@
-export {default} from './WOQLTable'
+export {WOQLTable} from './WOQLTable'
