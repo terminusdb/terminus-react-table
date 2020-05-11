@@ -3,7 +3,7 @@ import { useTable, usePagination,  useSortBy } from 'react-table'
 import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink} from "reactstrap";
 import TerminusClient from '@terminusdb/terminusdb-client';
 
-const WOQLTable = ({bindings, view, query, serverside})=>{
+export const WOQLTable = ({bindings, view, query, serverside})=>{
 
     serverside = serverside || false
     const columns = useMemo(() => makeColumns(), [])
@@ -156,4 +156,3 @@ const WOQLTable = ({bindings, view, query, serverside})=>{
     }    
 }
 
-export default WOQLTable
