@@ -41,4 +41,5 @@ module.exports = {
       amd: 'prop-types',
     }
   },
+  target: 'node'
 };
