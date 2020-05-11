@@ -39,6 +39,7 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
+    "build": "^0.1.4",
     "classnames": "^2.2.5",
     "core-js": "^3.4.2",
     "dotenv-webpack": "^1.7.0",

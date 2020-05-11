@@ -5,7 +5,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.WOQLTable = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -170,5 +170,4 @@ var WOQLTable = function WOQLTable(_ref) {
   }
 };
 
-var _default = WOQLTable;
-exports["default"] = _default;
+exports.WOQLTable = WOQLTable;
