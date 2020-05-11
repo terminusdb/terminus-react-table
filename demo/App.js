@@ -1,7 +1,7 @@
 import React , {useEffect,useState} from 'react';
 import TerminusClient from '@terminusdb/terminusdb-client'
-import { TableComponent } from '@terminusdb/terminusdb-react-table';
-import { FormatColumns } from '@terminusdb/terminusdb-react-table';
+import { WOQLTable } from '@terminusdb/terminusdb-react-table';
+//import { FormatColumns } from '@terminusdb/terminusdb-react-table';
 import { Container } from "reactstrap";
 
 //import {WOQLResult} from "@terminusdb/terminusdb-client";
@@ -11,6 +11,8 @@ const App = (props) =>{
     const [reload, setReload] = useState(false)
     const [dataProvider, setDataprovider] = useState([])
     const [listOfColumns, setListOfColumns] = useState([])
+
+    const [bindings, setBindings] = useState([])
 
     const server=process.env.API_URL;
     const key=process.env.API_KEY
@@ -31,8 +33,9 @@ const App = (props) =>{
           query.execute(dbClient).then((response)=>{
               let wr = new TerminusClient.WOQLResult(response,query);
               const data = wr.getBindings();
-              setListOfColumns(FormatColumns(wr.getVariableList()));
-              setDataprovider(data)
+              setBindings(data);
+              //setListOfColumns(FormatColumns(wr.getVariableList()));
+              //setDataprovider(data)
          }).catch((err)=>{
             console.log(err)
          })
@@ -48,8 +51,7 @@ const App = (props) =>{
                    <br/>
 				   Displaying results from a query using react-table
                    <br/> <br/>
-			       {<TableComponent columns = { columns }
-                    data = { dataProvider } />}
+			       {<WOQLTable bindings={bindings} query={query}/>}
                   { /*<TableComponent/>*/}
 			</Container>)
 }

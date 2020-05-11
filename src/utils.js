@@ -11,7 +11,7 @@ const replaceStr=(label)=>{
 the conf must be implemented
 */
 
-const FormatColumns=(columnVars,conf)=>{    
+export const FormatColumns=(columnVars,conf)=>{    
     const columnList=columnVars || []
 
     return columnList.map((item,index)=>{
@@ -36,4 +36,3 @@ const FormatColumns=(columnVars,conf)=>{
       })
 }
 
-export default FormatColumns
