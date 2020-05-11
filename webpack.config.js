@@ -9,6 +9,8 @@ module.exports = {
                 use:{
                     loader: "babel-loader",
                 },
+                include: path.resolve(__dirname, "src"),
+                exclude: /node_modules/,
             },
         ]
     },
