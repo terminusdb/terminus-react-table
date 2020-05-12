@@ -4,65 +4,50 @@ import {FormatColumns} from './utils';
 import {TableComponent} from './TableComponent';
 
 export const WOQLTable = ({bindings, view, query, serverside})=>{
-
-	//const columns = useMemo(() => makeColumns(), [bindings])
     const [data , columns]  = useMemo(() => makeData(), [bindings])
-
-
-    /*function makeColumns(){
-        view = view || {}
-        let wt = TerminusClient.View.table();
-        if(view.rules)  wt.loadJSON(view.table, view.rules)
-
-        let wr = new TerminusClient.WOQLResult({bindings: bindings})
-    
-        let woqt = new TerminusClient.WOQLTable(false, wt)
-        woqt.setResult(wr, query)
-        let colids = woqt.getColumnsToRender()
-
-        const columns= FormatColumns(colids)//wr.getVariableList())
-
-        let cols = []
-        for(var i = 0; i<colids.length; i++){
-            let cnt = woqt.getColumnHeaderContents(colids[i]).innerHTML
-            cols.push({
-                id: colids[i],
-                accessor: colids[i],
-                Header: colids[i],
-                selector: colids[i],
-                canSort: true
-            })            
-        }
-        //return columns
-    }*/
 
     function makeData(){
         view = view || {}
-       // let wt = TerminusClient.View.table()
-        //if(view.rules)  wt.loadJSON(view.table, view.rules)
-        let wr = new TerminusClient.WOQLResult({bindings: bindings},query)
-    
-        //let woqt = new TerminusClient.WOQLTable(false, wt)
-        //woqt.setResult(wr, query)
+        let wt = TerminusClient.View.table()
+        if(view.rules)  wt.loadJSON(view.table, view.rules)
+        let wr = new TerminusClient.WOQLResult({bindings: bindings},query)    
+        let woqt = new TerminusClient.WOQLTable(false, wt)
+        woqt.setResult(wr, query)
+        const columns = formatTableColumns(woqt)
+        return [bindings, columns];
+    }
 
-        //let colids = woqt.getColumnsToRender()
-        const vlist=wr.getVariableList();
-        const listOfColumns= FormatColumns(wr.getVariableList())
-        //const listOfColumns= FormatColumns(colids)
-
-        const columns =[{ Header:'Table View', columns:listOfColumns}]
-
-        let data=bindings
-        /*let data = [];
-        let row = false
-        while(row = woqt.next()){
-            let nrow = {}
-            for(var k in row){
-                nrow[k] = (typeof row[k]["@value"] != "undefined") ? row[k]["@value"] : row[k]  
+    function formatTableColumns(woqt){
+        let colids = woqt.getColumnsToRender()
+        let listOfColumns = colids.map((item, index) => {
+            return {
+                Header: item,
+                id: item,
+                accessor: item,
+                selector: item,
+                canSort: woqt.isSortableColumn(item),
+                filterable: woqt.isFilterableColumn(item),
+                Cell: function(props){
+                    return renderCellValue(props, woqt)
+                }
             }
-            data.push(nrow)
-        }*/
-        return [data, columns];
+        })
+        let colstruct = {columns:listOfColumns}
+        if(woqt.config.header()) colstruct.Header = woqt.config.header()
+        else colstruct.Header = "waaa"
+        return [colstruct]
+    }
+
+    function renderCellValue(props, woqt){
+        let value = props.cell.value
+        if(typeof props.cell.value==='object'){
+
+          value=props.cell.value['@value']
+        }
+        else {
+          value = (props.cell.value)
+        }
+        return (<span>{value}</span>)
     }
 
     return(

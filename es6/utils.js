@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.FormatColumns = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -47,5 +47,4 @@ var FormatColumns = function FormatColumns(columnVars, conf) {
   });
 };
 
-var _default = FormatColumns;
-exports["default"] = _default;
+exports.FormatColumns = FormatColumns;
