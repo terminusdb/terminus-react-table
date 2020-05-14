@@ -53,7 +53,7 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
 
         return (value)
     }
-    if(!columns) return null
+    if(!columns) return null;
     return(
     	<TableComponent data={data} columns={columns} />
     )
