@@ -38,7 +38,10 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         })
         let colstruct = {columns:listOfColumns}
         if(woqt.config.header()) colstruct.Header = woqt.config.header()
-        else colstruct.Header = ""
+        /*
+        * don't remove or get an error, to be review " " this works
+        */
+        else colstruct.Header = "Result Table" 
         return [colstruct]
     }
 
