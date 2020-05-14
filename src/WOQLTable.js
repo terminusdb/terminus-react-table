@@ -10,8 +10,12 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         view = view || {}
         let wt = TerminusClient.View.table()
         if(view.rules)  wt.loadJSON(view.table, view.rules)
+
         let wr = new TerminusClient.WOQLResult({bindings: bindings},query)    
         let woqt = new TerminusClient.WOQLTable(false, wt)
+
+        console.log(wt.json());
+        
         woqt.setResult(wr, query)
         const columns = formatTableColumns(woqt)
         return [bindings, columns];
@@ -43,11 +47,11 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         if(typeof props.cell.value==='object'){
 
           value=props.cell.value['@value']
-        }
-        else {
+        }else {
           value = (props.cell.value)
         }
-        return (<span>{value}</span>)
+
+        return (value)
     }
 
     return(
