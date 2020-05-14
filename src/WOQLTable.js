@@ -34,14 +34,14 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         })
         let colstruct = {columns:listOfColumns}
         if(woqt.config.header()) colstruct.Header = woqt.config.header()
-        else colstruct.Header = "waaa"
+        else colstruct.Header = ""
         return [colstruct]
     }
 
+    //cell values that come back from queries can have 
     function renderCellValue(props, woqt){
         let value = props.cell.value
         if(typeof props.cell.value==='object'){
-
           value=props.cell.value['@value']
         }
         else {
@@ -49,7 +49,7 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         }
         return (<span>{value}</span>)
     }
-
+    if(!columns) return null
     return(
     	<TableComponent data={data} columns={columns} />
     )
