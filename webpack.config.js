@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = {
+module.exports = (env, argv) => ({
     entry: './src/index.js',
     module: {
         rules: [
@@ -14,11 +14,12 @@ module.exports = {
             },
         ]
     },
+    devtool: argv.mode === 'production' ? false : '#inline-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'terminusdb-table.min.js',
-        sourceMapFilename: 'terminusdb-table.min.js.map',
-        library: 'TerminusTable',
+        filename: 'terminusdb-react-table.min.js',
+        sourceMapFilename: 'terminusdb-react-table.min.js.map',
+        library: 'TerminusDBTable',
     },
     externals: {
     
@@ -42,4 +43,4 @@ module.exports = {
     }
   },
   target: 'node'
-};
+});

@@ -1,7 +1,28 @@
 language: node_js
 node_js:
-  - 12
+  - stable
 
-script:
-  - npm i
-  - npm run build
+stages:
+  - build
+  - name: deploy_dev
+    if: branch = dev
+
+jobs:
+  include:
+    - stage: build
+
+    - stage: deploy_dev
+      script:
+        - bash .ci/publish_dev.sh
+
+deploy:
+  - provider: npm
+    registry: "https://registry.npmjs.org/"
+    skip_cleanup: true
+    access: public
+    email: "robin@datachemist.com"
+    api_key: $NPM_TOKEN
+    keep_history: true
+    auth_method: "authToken"
+    on:
+      tags: true
