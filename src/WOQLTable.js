@@ -41,7 +41,7 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         /*
         * don't remove or get an error, to be review " " this works
         */
-        else colstruct.Header = "Result Table" 
+        else colstruct.Header = " " 
         return [colstruct]
     }
 
@@ -49,14 +49,13 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
     function renderCellValue(props, woqt){
         let value = props.cell.value
         if(typeof props.cell.value==='object'){
-          value=props.cell.value['@value']
-        }else {
+          value=(props.cell.value['@value'] || "")
+        }
+        else {
           value = (props.cell.value)
         }
-
         return (value)
     }
-    if(!columns) return null;
     return(
     	<TableComponent data={data} columns={columns} />
     )
