@@ -47,17 +47,34 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
 
     //cell values that come back from queries can have 
     function renderCellValue(props, woqt){
-        let value = props.cell.value
-        if(typeof props.cell.value==='object'){
-          value=(props.cell.value['@value'] || "")
-        }
-        else {
-          value = (props.cell.value)
-        }
-        return (value)
+        let value = props.cell.value || ""
+        return (getStringFromBindingValue(value))
     }
     return(
     	<TableComponent data={data} columns={columns} />
     )
+
+    function getStringFromBindingValue(item, first){
+        if(Array.isArray(item)){
+            return valueFromArray(item)
+        }
+        if(typeof item == "object"){
+            if(typeof item['@value'] != "undefined"){
+                return item['@value']
+            }
+            else {
+                return JSON.stringify(item, false, 2) 
+            }
+        }
+        if(item == "terminus:unknown") return ""
+        return item;
+    }
+
+    function valueFromArray(arr){
+        let vals = arr.map((item) => {
+            return getStringFromBindingValue(item)
+        })
+        return vals.join(", ")
+    }
 
 }
