@@ -1,6 +1,5 @@
-import React,{useEffect, useMemo} from 'react';
+import React,{useMemo} from 'react';
 import TerminusClient from '@terminusdb/terminusdb-client';
-import {FormatColumns} from './utils';
 import {TableComponent} from './TableComponent';
 
 export const WOQLTable = ({bindings, view, query, serverside})=>{
@@ -10,12 +9,8 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         view = view || {}
         let wt = TerminusClient.View.table()
         if(view.rules)  wt.loadJSON(view.table, view.rules)
-
         let wr = new TerminusClient.WOQLResult({bindings: bindings},query)    
-        let woqt = new TerminusClient.WOQLTable(false, wt)
-
-        console.log(wt.json());
-        
+        let woqt = new TerminusClient.WOQLTable(false, wt)       
         woqt.setResult(wr, query)
         const columns = formatTableColumns(woqt)
         return [bindings, columns];
@@ -38,43 +33,42 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
         })
         let colstruct = {columns:listOfColumns}
         if(woqt.config.header()) colstruct.Header = woqt.config.header()
-        /*
-        * don't remove or get an error, to be review " " this works
-        */
         else colstruct.Header = " " 
         return [colstruct]
     }
 
-    //cell values that come back from queries can have 
-    function renderCellValue(props, woqt){
-        let value = props.cell.value || ""
-        return (getStringFromBindingValue(value))
-    }
     return(
     	<TableComponent data={data} columns={columns} />
     )
+}
 
-    function getStringFromBindingValue(item, first){
-        if(Array.isArray(item)){
-            return valueFromArray(item)
-        }
-        if(typeof item == "object"){
-            if(typeof item['@value'] != "undefined"){
-                return item['@value']
-            }
-            else {
-                return JSON.stringify(item, false, 2) 
-            }
-        }
-        if(item == "terminus:unknown") return ""
-        return item;
+//cell values that come back from queries can have 
+function renderCellValue(props, woqt){
+    let value = props.cell.value || ""
+    const strval = getStringFromBindingValue(value)
+    if(typeof strval == "undefined") return ""
+    return strval
+}
+
+function getStringFromBindingValue(item, first){
+    if(Array.isArray(item)){
+        return valueFromArray(item)
     }
-
-    function valueFromArray(arr){
-        let vals = arr.map((item) => {
-            return getStringFromBindingValue(item)
-        })
-        return vals.join(", ")
+    if(typeof item == "object"){
+        if(typeof item['@value'] != "undefined"){
+            return (<span title={item['@type']}>{item['@value']}</span>)
+        }
+        else {
+            return JSON.stringify(item, false, 2) 
+        }
     }
+    if(item == "terminus:unknown") return ""
+    return item;
+}
 
+function valueFromArray(arr){
+    let vals = arr.map((item) => {
+        return getStringFromBindingValue(item)
+    })
+    return vals.join(", ")
 }
