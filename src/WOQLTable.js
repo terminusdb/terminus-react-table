@@ -56,7 +56,8 @@ function getStringFromBindingValue(item, first){
     }
     if(typeof item == "object"){
         if(typeof item['@value'] != "undefined"){
-            return (<span title={item['@type']}>{item['@value']}</span>)
+            let t = (item["@language"] ? "xsd:string" : item["@type"])
+            return (<span title={t}>{item['@value']}</span>)
         }
         else {
             return JSON.stringify(item, false, 2) 
