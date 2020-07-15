@@ -72,7 +72,7 @@ export const TableComponent = ({columns, data, serverside})=>{
                 })}
                 </tbody>
             </Table>
-            <Row md={12}>
+            <Row md={12} className="mr-0 ml-0">
             <Col md={6} >
                 <Pagination className="pagination">
                     <button onClick={() => previousPage()} disabled={!canPreviousPage}>

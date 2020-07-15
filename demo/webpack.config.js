@@ -22,6 +22,7 @@ module.exports = {
   resolve: {
     alias: {
       "@terminusdb/terminusdb-react-table": path.join(__dirname, '..', 'src/index.js'),
+      "@terminusdb/terminusdb-client": path.resolve('../terminusdb-client/index.js')
     },
     extensions: ['.js', '.jsx', '.json'],
   },
