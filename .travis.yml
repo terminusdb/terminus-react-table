@@ -3,7 +3,7 @@ node_js:
   - stable
 
 stages:
-  - build
+  - name: build
   - name: deploy_dev
     if: branch = dev
   - name: deploy_canary
@@ -14,6 +14,9 @@ jobs:
     - stage: build
       script:
         - npm run build
+      before_install:
+        -  if [ "$TRAVIS_BRANCH" = "dev" ]; then echo "@terminusdb:registry=https://api.bintray.com/npm/terminusdb/npm-dev" > $TRAVIS_BUILD_DIR/.npmrc; fi
+        -  if [ "$TRAVIS_BRANCH" = "canary" ]; then echo "@terminusdb:registry=https://api.bintray.com/npm/terminusdb/npm-canary" > $TRAVIS_BUILD_DIR/.npmrc; fi
 
     - stage: deploy_dev
       script:
