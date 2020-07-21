@@ -18,16 +18,17 @@ const App = (props) =>{
     const key=process.env.API_KEY
     const db=process.env.API_DB
 
-    const config = {server : server,
+    const config = {user:'admin',
+                  organization:"admin",
                   key : key,
-                  db : db}
+                  }
 
     const WOQL = TerminusClient.WOQL;
     let query = WOQL.star();
 
     useEffect(() => {
 
-      const dbClient = new TerminusClient.WOQLClient();
+      const dbClient = new TerminusClient.WOQLClient(server);
       dbClient.connect(config).then(function(response){
           dbClient.connectionConfig.setDB(db);
           query.execute(dbClient).then((response)=>{
