@@ -1,6 +1,7 @@
 import React,{useMemo} from 'react';
 import TerminusClient from '@terminusdb/terminusdb-client';
 import {TableComponent} from './TableComponent';
+import { format } from "date-fns";
 
 export const WOQLTable = ({bindings, view, query, serverside})=>{
     const [data , columns]  = useMemo(() => makeData(), [bindings])
@@ -41,11 +42,30 @@ export const WOQLTable = ({bindings, view, query, serverside})=>{
     	<TableComponent data={data} columns={columns} />
     )
 }
+/*
+* to be review we have to pass the column type in the table config like
+* {columnid:'Time', type:"seconds"} etc.....
+*/
+function checkTime(props){
+    let strval=false
+    if(props.cell.column 
+        && props.cell.column.id==="Time" 
+        && typeof props.cell.value==='object'
+        && props.cell.value['@type']==='http://www.w3.org/2001/XMLSchema#decimal'){
+
+        const ts=props.cell.value['@value']
+        if(!isNaN(parseFloat(ts))){
+            strval=format(new Date(parseFloat(ts*1000)), "hh:mm:ss, dd/MM/yy")
+         }      
+    }
+    return strval
+}
 
 //cell values that come back from queries can have 
 function renderCellValue(props, woqt){
     let value = props.cell.value || ""
-    const strval = getStringFromBindingValue(value)
+    let strval = checkTime(props);
+    if(strval===false)strval = getStringFromBindingValue(value);
     if(typeof strval == "undefined") return ""
     return strval
 }
