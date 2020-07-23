@@ -42,14 +42,15 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
-   "dependencies": {
+  "dependencies": {
+    "@terminusdb/terminusdb-client": "^2.0",
     "build": "^0.1.4",
     "classnames": "^2.2.5",
     "core-js": "^3.4.2",
+    "date-fns": "^2.15.0",
     "dotenv-webpack": "^1.7.0",
     "react-table": "^7.0.0-rc.15",
-    "reactstrap": "^8.2.0",
-    "@terminusdb/terminusdb-client": "^2.0"
+    "reactstrap": "^8.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
