@@ -2,9 +2,12 @@ import React,{useMemo} from 'react';
 import TerminusClient from '@terminusdb/terminusdb-client';
 import {TableComponent} from './TableComponent';
 import { CellRenderer } from "./CellRenderer"
+import { CSVLink } from "react-csv";
+import {FaFileCsv} from "react-icons/fa"
+import { Row,Col } from 'react-bootstrap';
 
 //this only render the logic of do the query is in an external hook
-export const WOQLTable = ({bindings, result, view, freewidth, query, start, limit, orderBy, totalRows, setLimits, setOrder, onRefresh, resultColumns})=>{
+export const WOQLTable = ({bindings, result, view, freewidth, query, start, limit, orderBy, totalRows, setLimits, setOrder, onRefresh,dowloadConfig})=>{
     let wt = TerminusClient.View.table()
     if(view)  wt.loadJSON(view.table, view.rules)
     
@@ -106,19 +109,47 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
         return [colstruct]
     }
     if(!data || !data.length) return null
-    return(
-        <TableComponent
-            data={data}
-            columns={columns}
-            freewidth={freewidth}
-            view={woqt}
-            orderBy={orderBy}
-            pages={pages}
-            pageNumber={pagenum}
-            rowCount={totalRows}
-            setLimits={setLimits}
-            setOrder={setOrder}
-            onRefresh={onRefresh}
-        />
+
+    let headers=[] 
+    let csvData=[]
+    if(dowloadConfig){
+        headers = dowloadConfig.headers || Object.keys(data[0])
+        csvData = React.useMemo(() => {  
+            return data.map((item) => {
+                //array of values 
+                //const values = Object.values(d)
+                return headers.map(title=>{
+                    if(typeof item[title] === "object"){
+                        return item[title]["@value"]
+                    }
+                    return item[title]
+                })
+                
+            });
+        }, []);
+    } 
+
+    return(<React.Fragment>
+            {dowloadConfig && <Row>
+                <Col className={"d-flex justify-content-end  pr-5"}>
+                    <CSVLink data={csvData} filename={dowloadConfig.filename || "download.csv"} 
+                    className={dowloadConfig.className || "btn btn-primary"} headers={headers} >
+                    <FaFileCsv size={30}/></CSVLink>
+                </Col>
+            </Row>}
+            <TableComponent
+                data={data}
+                columns={columns}
+                freewidth={freewidth}
+                view={woqt}
+                orderBy={orderBy}
+                pages={pages}
+                pageNumber={pagenum}
+                rowCount={totalRows}
+                setLimits={setLimits}
+                setOrder={setOrder}
+                onRefresh={onRefresh}
+            />
+        </React.Fragment>
     )
 }
