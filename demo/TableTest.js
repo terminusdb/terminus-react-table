@@ -87,6 +87,7 @@ export const TableTest = () => {
         }
 
         {result && tableConfig && rowCount && <WOQLTable
+            dowloadConfig={{filename:"test.csv",headers:["Author","Commit ID"]}}
             result={result}
             freewidth={true}
             view={(tableConfig ? tableConfig.json() : {})}
