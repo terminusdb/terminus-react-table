@@ -112,7 +112,9 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
 
     let headers=[] 
     let csvData=[]
+    let headersLabel = []
     if(dowloadConfig){
+        headersLabel=  dowloadConfig.headersLabel || dowloadConfig.headers
         headers = dowloadConfig.headers || Object.keys(data[0])
         csvData = React.useMemo(() => {  
             return data.map((item) => {
@@ -133,7 +135,7 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
             {dowloadConfig && <Row>
                 <Col className={"d-flex justify-content-end  pr-5"}>
                     <CSVLink data={csvData} filename={dowloadConfig.filename || "download.csv"} 
-                    className={dowloadConfig.className || "btn btn-primary"} headers={headers} >
+                    className={dowloadConfig.className || "btn btn-primary"} headers={headersLabel} >
                     <FaFileCsv size={30}/></CSVLink>
                 </Col>
             </Row>}
