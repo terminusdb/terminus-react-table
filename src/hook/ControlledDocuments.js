@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 const WOQL = TerminusClient.WOQL
 
-function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStart, order) { 
+function ControlledDocuments (woqlClient, type, documents, queryLimit, queryStart, order) { 
     const [limit, setLimit] = useState(queryLimit || 10)
     const [start, setStart] = useState(queryStart || 0)
     const [orderBy, setOrderBy] = useState(order||false)
@@ -10,10 +10,10 @@ function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStar
     const [loading, setLoading] = useState(false)
     const [loaded, setLoaded] = useState(false)
     const [controlledRefresh, setControlledRefresh] = useState(0)
-    const [documentResults, setDocumentResults]= useState(false)
+    const [documentResults, setDocumentResults]= useState(documents)
     const [documentError, setDocumentError]= useState(false)
 
-    const controlledDocument = document
+    const controlledDocument = type
 
     const changeOrder = (ord) => {
         if(JSON.stringify(orderBy) != JSON.stringify(ord)){
@@ -68,7 +68,7 @@ function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStar
     }
 
     const executeCountQuery = () => {
-        let q = WOQL.count("v:Count", WOQL.triple("v:doc","rdf:type",`@schema:${document}`))
+        let q = WOQL.count("v:Count", WOQL.triple("v:doc","rdf:type",`@schema:${type}`))
         return woqlClient.query(q)
         .then((cresult) => {
             return ((cresult && cresult.bindings && cresult.bindings.length) ? cresult.bindings[0]['Count']['@value'] : 0)
@@ -124,4 +124,4 @@ function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStar
     }
 }
 
-export {ControlledGetDocumentQuery}
+export {ControlledDocuments}
