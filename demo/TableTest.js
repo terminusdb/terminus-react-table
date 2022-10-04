@@ -20,11 +20,11 @@ export const getCommitsTabConfig = (result, limit, cellClick, getCopyButton) => 
 }
 
 const woqlClient = new TerminusClient.WOQLClient("http://localhost:6363",
-{user:'admin',key:'root',db:'profiles'})
+{user:'admin',key:'root',db:'lego'})
 const branch = 'main'
 export const TableTest = () => {
     //const [query, setQuery]=useState(commitsQueryByBranch(branch))
-   // const [tableConfig, setTableConfig] = useState(false)
+   const [tableConfig, setTableConfig] = useState(false)
 
     const [copied, setCopied] = useState(false)
     const [showCopiedMessage, setShowCopiedMessage] = useState(true);
@@ -69,12 +69,12 @@ export const TableTest = () => {
         </span>
     }
 
-    let tableConfig = getCommitsTabConfig(result, limit , cellClick, getCopyButton)
+   //let tableConfig = getCommitsTabConfig(result, limit , cellClick, getCopyButton)
 
-    /*useEffect(() => {
+    useEffect(() => {
         let tConf = getCommitsTabConfig(result, limit , cellClick, getCopyButton)
         setTableConfig(tConf)
-    }, [result])*/
+    }, [result])
 
     return <React.Fragment>
         

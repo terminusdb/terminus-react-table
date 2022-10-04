@@ -2,7 +2,7 @@ import React,{useEffect, useMemo} from 'react';
 import { useTable, usePagination,  useSortBy } from 'react-table'
 import {BiRefresh} from "react-icons/bi"
 import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink,Button} from "react-bootstrap" //replace;
-
+import {CheckboxDropdown} from "./ColumsVisibilityComponent"
 /**
  * config options
  * pager - no, remote, local 
@@ -21,8 +21,8 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
     let ut_config = {
         columns,
         data,
-        manualPagination: pager == "remote" ? true : false,
-        manualSortBy:pager == "remote" ? true : false,
+        manualPagination: pager === "remote" ? true : false,
+        manualSortBy:pager === "remote" ? true : false,
         pageCount : pages || 1,
         initialState : {
             pageSize : view.config.pagesize() || 10,
@@ -36,7 +36,9 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
         getTableProps,
         getTableBodyProps,
         headerGroups,
+        
         prepareRow,
+      //  columns,
         page, // Instead of using 'rows', we'll use page,
         // which has only the rows for the active page
 
@@ -49,8 +51,12 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
         nextPage,
         previousPage,
         setPageSize,
+        allColumns,
+        getToggleHideAllColumnsProps,
         state: { pageIndex, pageSize, sortBy },
         } = useTable(ut_config, useSortBy, usePagination)
+
+
 
     
     let rowCountStr = ""
@@ -78,10 +84,13 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
             setLimits(pageSize, (pageIndex)*pageSize)
      }, [pageIndex, pageSize ])
 
-     
+
      return (
         <span>
-             
+        <div className='d-flex justify-content-end'>
+        <CheckboxDropdown allColumns={allColumns} getToggleHideAllColumnsProps={getToggleHideAllColumnsProps}/>
+        </div>
+        <div className="h-4" />
             <Table {...getTableProps()} hover >
                      <thead>
                         {headerGroups.map(headerGroup => (

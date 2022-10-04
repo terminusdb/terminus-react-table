@@ -66,9 +66,16 @@ function ControlledDocuments (woqlClient, type, documents, queryLimit, queryStar
             }
         }
     }
+    const checkIfPrefix =(id)=>{
+        if(id.indexOf(":")>-1){
+            return id
+        }
+        return "@schema:"+id
+    }
 
     const executeCountQuery = () => {
-        let q = WOQL.count("v:Count", WOQL.triple("v:doc","rdf:type",`@schema:${type}`))
+        const typeDoc = checkIfPrefix(type)
+        let q = WOQL.count("v:Count", WOQL.triple("v:doc","rdf:type",typeDoc))
         return woqlClient.query(q)
         .then((cresult) => {
             return ((cresult && cresult.bindings && cresult.bindings.length) ? cresult.bindings[0]['Count']['@value'] : 0)
